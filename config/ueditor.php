@@ -1,10 +1,8 @@
 <?php
 
 return [
-    'core'   => [
-        'route' => [
-            'middleware' => ['web'],
-        ],
+    'route'  => [
+        'middleware' => ['web'],
     ],
 
     'upload' => [

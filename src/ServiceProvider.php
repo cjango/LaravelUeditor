@@ -2,6 +2,7 @@
 
 namespace RuLong\Ueditor;
 
+use Illuminate\Support\Facades\Route;
 use Illuminate\Support\ServiceProvider as LaravelServiceProvider;
 
 class ServiceProvider extends LaravelServiceProvider
@@ -20,6 +21,14 @@ class ServiceProvider extends LaravelServiceProvider
     public function register()
     {
         $this->mergeConfigFrom(__DIR__ . '/../config/ueditor.php', 'ueditor');
+
+        $this->registerRoutes();
     }
 
+    protected function registerRoutes()
+    {
+        Route::middleware(config('ueditor.route.middleware'))->group(function ($router) {
+            $router->get('ueditor/config', '\RuLong\Ueditor\Controllers\ConfigController@index');
+        });
+    }
 }
