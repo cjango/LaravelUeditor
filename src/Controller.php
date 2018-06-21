@@ -22,7 +22,7 @@ class Controller extends BaseController
 
         if (method_exists($this, $action)) {
             $result = call_user_func_array([$this, $action], []);
-            return response()->json($result, 200, [], JSON_UNESCAPED_UNICODE);
+            return json_encode($result);
         } else {
             return '';
         }
@@ -33,7 +33,7 @@ class Controller extends BaseController
         return $this->config;
     }
 
-    public function uploadImage()
+    protected function uploadImage()
     {
         $upConfig = [
             "pathFormat" => $this->config['imagePathFormat'],
@@ -44,7 +44,7 @@ class Controller extends BaseController
         return with(new Uploader\UploadFile($upConfig, $this->request))->upload();
     }
 
-    public function uploadFile()
+    protected function uploadFile()
     {
         $upConfig = [
             "pathFormat" => $this->config['filePathFormat'],
@@ -55,7 +55,7 @@ class Controller extends BaseController
         return with(new Uploader\UploadFile($upConfig, $this->request))->upload();
     }
 
-    public function uploadScrawl()
+    protected function uploadScrawl()
     {
         $upConfig = [
             "pathFormat" => $this->config['scrawlPathFormat'],
@@ -66,7 +66,7 @@ class Controller extends BaseController
         return with(new Uploader\UploadScrawl($upConfig, $this->request))->upload();
     }
 
-    public function uploadVideo()
+    protected function uploadVideo()
     {
         $upConfig = [
             "pathFormat" => $this->config['videoPathFormat'],
@@ -77,7 +77,7 @@ class Controller extends BaseController
         return with(new Uploader\UploadFile($upConfig, $this->request))->upload();
     }
 
-    public function catchImage()
+    protected function catchImage()
     {
         $upConfig = [
             "pathFormat" => $this->config['catcherPathFormat'],
@@ -107,7 +107,7 @@ class Controller extends BaseController
         ];
     }
 
-    public function listImage()
+    protected function listImage()
     {
         return with(new Uploader\Lists(
             $this->config['imageManagerAllowFiles'],
@@ -116,7 +116,7 @@ class Controller extends BaseController
             $this->request))->getList();
     }
 
-    public function listFile()
+    protected function listFile()
     {
         return with(new Uploader\Lists(
             $this->config['fileManagerAllowFiles'],
