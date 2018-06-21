@@ -10,25 +10,26 @@ class ServiceProvider extends LaravelServiceProvider
 
     public function boot()
     {
-        $this->commands($this->commands);
-
         if ($this->app->runningInConsole()) {
             $this->publishes([__DIR__ . '/../config/ueditor.php' => config_path('ueditor.php')]);
-            $this->publishes([__DIR__ . '/../resources/assets' => public_path('assets/ueditor')]);
+            $this->publishes([__DIR__ . '/../resources/ueditor' => public_path('assets/ueditor')]);
+            $this->publishes([__DIR__ . '/../resources/umeditor' => public_path('assets/umeditor')]);
         }
+
+        BladeExtends::ueditor();
+        BladeExtends::umeditor();
     }
 
     public function register()
     {
         $this->mergeConfigFrom(__DIR__ . '/../config/ueditor.php', 'ueditor');
-
         $this->registerRoutes();
     }
 
     protected function registerRoutes()
     {
         Route::middleware(config('ueditor.route.middleware'))->group(function ($router) {
-            $router->get('ueditor/config', '\RuLong\Ueditor\Controllers\ConfigController@index');
+            $router->match(['get', 'post'], 'ueditor/server', '\RuLong\Ueditor\Controller@server');
         });
     }
 }
