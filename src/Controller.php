@@ -12,6 +12,7 @@ class Controller extends BaseController
 
     public function __construct(Request $request)
     {
+        $this->middleware(config('ueditor.route.middleware'));
         $this->request = $request;
         $this->config  = config('ueditor.upload');
     }
